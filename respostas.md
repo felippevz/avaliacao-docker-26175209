@@ -43,11 +43,15 @@ do que texto longo copiado. Resposta que contradiz o seu próprio Dockerfile val
 
 | # | Instrução | O que estava errado | O que você viu acontecer | Como corrigiu |
 |---|---|---|---|---|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
+| 1 | COPY | a pasta de origem no COPY não existe no projeto | o erro de build, com a mensagem de que o caminho não foi encontrado (=> ERROR [3/3] COPY pagina/ . ) | troquei o nome da pasta de origem pelo nome correto |
+| 2 | CMD | o Nginx era iniciado em segundo plano, então o processo principal terminava | Exited (0) em docker ps -a, e logs sem erro, só a inicialização normal | Troquei o comando simples (ngix) para o padrão da imagem (nginx -g daemon off;) |
+| 3 | COPY / WORKDIR | Com WORKDIR /usr/share/nginx, o COPY site/ . colocava a página em /usr/share/nginx, e não em /usr/share/nginx/html, que é a pasta de onde o Nginx serve o site. | O container ficou Up, mas em http://localhost:7009 apareceu a página "Welcome to nginx!" em vez de "Voltamos em breve". | Troquei o destino do COPY para /usr/share/nginx/html/ |
 
 6. Qual a diferença entre `-p 7042:80` e `-p 80:7042` no `docker run`? Qual dos dois números é a porta do container?
+
+R: No -p, o formato é porta-do-host:porta-do-container. O número da esquerda é a porta do meu computador (host) e o da direita é a porta do container. A porta do container é, portanto, o número depois dos dois pontos.
+   -p 7009:80: o que chega na porta 7009 do meu computador é encaminhado para a porta 80 do container, onde o Nginx escuta. Funciona: acesso http://localhost:7009.
+   -p 80:7009: o que chega na porta 80 do meu computador é encaminhado para a porta 7009 do container. Como o Nginx escuta na 80 dentro do container, nada responderia na 7009, então a página não abriria.
 
 ## Parte 4 · Primeiro docker-compose
 
