@@ -30,7 +30,12 @@ do que texto longo copiado. Resposta que contradiz o seu próprio Dockerfile val
 
 3. Nome completo da imagem publicada e link público do repositório no Docker Hub.
 
+   R: Nome da imagem: viaserra-portal
+      Link: https://hub.docker.com/r/felippevz/viaserra-portal
+
 4. Se você mudar o HTML, quais comandos precisa rodar para que a versão nova chegue ao Docker Hub?
+
+   R: Preciso reconstruir a imagem com 'docker build -t felippevz/viaserra-portal:1.0-26175209 ./portal' e depois enviar com 'docker push felippevz/viaserra-portal:1.0-26175209'. Como o Dockerfile copia o HTML para dentro da imagem, só rebuildando a imagem a mudança entra.
 
 ## Parte 3 · Página de manutenção
 
